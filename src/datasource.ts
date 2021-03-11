@@ -9,8 +9,8 @@ interface Project_DB_res {
 
 
 export class Projects extends RESTDataSource {
-  async fetchProjects(sort = { year: 1 }, count = 20): Promise<Project[]> {
-    const res = await this.context.projects.find().limit(count).sort({year: -1}).toArray()
+  async fetchProjects(sort = { date: 1 }, count = 20): Promise<Project[]> {
+    const res = await this.context.projects.find().limit(count).sort({date: -1}).toArray()
     return res
   }
 
@@ -63,9 +63,38 @@ export class Projects extends RESTDataSource {
 
 
 export class Galleries extends RESTDataSource {
-  async fetchGallery(id): Promise<Project[]> {
-    // const res = await this.findOneById('60456391f0f2c6ace104d3e2')
-    // return res[id]
-    return []
+  async fetchGalleries(count = 20): Promise<Gallery[]> {
+    const res = await this.context.galleries.find().limit(count).toArray()
+    return res
+  }
+
+  async fetchGallery(slug): Promise<Gallery> {
+    const res = await this.context.galleries.findOne({ slug })
+    return res
+  }
+
+  async updateGallery(gallery): Promise<Gallery | Partial<Gallery>> {
+    try {
+      const id = gallery._id
+      const dbReadyGallery = this.dbGalleryReducer(gallery)
+      const res = await this.context.galleries.findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        { $set: dbReadyGallery }
+      )
+      return res.value
+    } catch(e) {
+      return e
+    }
+  }
+
+  dbGalleryReducer(gallery) {
+    if(gallery._id) delete gallery._id
+    // if(gallery.image) {
+    //   const { image } = gallery
+    //   const lastIndex = image.lastIndexOf('.')
+    //   const [path, fileType] = [image.slice(0, lastIndex), image.slice(lastIndex)]
+    //   gallery.image = {path, fileType}
+    // }
+    return gallery
   }
 }

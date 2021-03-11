@@ -11,7 +11,7 @@ import { DataSourceContainer } from './types/index'
 
 dotenv.config();
 
-const client = new MongoClient(process.env.MONGO_DB_URI)
+const client = new MongoClient(process.env.MONGO_DB_URI, { useUnifiedTopology: true })
 client.connect()
 
 const server = new ApolloServer({

@@ -5,14 +5,19 @@ export default {
   Query: {
     projects: (
       parent: null,
-      { sort, count }: { sort: { year: number }, count: number },
+      { sort, count }: { sort: { date: number }, count: number },
       { dataSources }: { dataSources: DataSourceContainer<Projects> }
     ): ReturnType<Projects["fetchProjects"]>  => dataSources.projects.fetchProjects(sort, count),
+    galleries: (
+      parent: null,
+      { count }: { count: number },
+      { dataSources }: { dataSources: DataSourceContainer<Galleries> }
+    ): ReturnType<Galleries["fetchGalleries"]>  => dataSources.galleries.fetchGalleries(count),
     gallery: (
       parent: null,
-      { id }: { id: string },
+      { slug }: { slug: string },
       { dataSources }: { dataSources: DataSourceContainer<Galleries> }
-    ): ReturnType<Galleries["fetchGallery"]>  => dataSources.galleries.fetchGallery(id)
+    ): ReturnType<Galleries["fetchGallery"]>  => dataSources.galleries.fetchGallery(slug)
   },
   Mutation: {
     addProject: (
@@ -30,5 +35,10 @@ export default {
       { _id }: { _id: string },
       { dataSources }: { dataSources: DataSourceContainer<Projects> }
     ): ReturnType<Projects["deleteProject"]>  => dataSources.projects.deleteProject(_id),
+    updateGallery: (
+      parent: null,
+      gallery,
+      { dataSources }: { dataSources: DataSourceContainer<Galleries> }
+    ): ReturnType<Galleries["updateGallery"]>  => dataSources.galleries.updateGallery(gallery),
   }
 }
