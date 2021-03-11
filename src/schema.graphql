@@ -5,8 +5,8 @@ type Query {
 }
 
 type Mutation {
-  addProject(category: [String] image: String! title: String! date: Int!): Project
-  updateProject(_id: String! category: [String] image: String title: String date: Int): Project
+  addProject(category: [String] image: String! slug: SlugInput title: String! date: Int!): Project
+  updateProject(_id: String! category: [String] slug: SlugInput  image: String title: String date: Int): Project
   deleteProject(_id: String!): Project
   updateGallery(_id: String! slug: String projectId: String description: String imagesPath: String, imagesCount: Int): Gallery
   # deleteGallery(_id: String!): Gallery
@@ -17,7 +17,17 @@ type Project {
   category: [Category]
   image: Image
   title: String
+  slug: ProjectSlug
   date: Int
+}
+
+type ProjectSlug {
+  pageType: pageType
+  path: String
+}
+
+enum pageType {
+  GALLERY
 }
 
 type Image {
@@ -51,4 +61,9 @@ enum Category {
 
 input ProjectSort {
   date: Int
+}
+
+input SlugInput {
+  pageType: String
+  path: String
 }

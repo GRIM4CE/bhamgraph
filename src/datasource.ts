@@ -8,9 +8,11 @@ interface Project_DB_res {
 }
 
 const isAuthorized = (context, secure_api = true) => {
-  if(context.API_KEY !== process.env.API_KEY && secure_api) throw new Error('Not Authorized')
-  if(context.API_KEY !== process.env.PUBLIC_API_KEY) throw new Error('Not Authorized')
-  return
+  if((context.API_KEY === process.env.PUBLIC_API_KEY ||
+      context.API_KEY === process.env.API_KEY) &&
+      !secure_api) return
+  if(context.API_KEY === process.env.API_KEY && secure_api) return
+  throw new Error('Not Authorized')
 }
 
 export class Projects extends RESTDataSource {
@@ -64,6 +66,7 @@ export class Projects extends RESTDataSource {
 
   dbProjectReducer(project) {
     if(project._id) delete project._id
+    if(project.slugPath)
     if(project.image) {
       const { image } = project
       const lastIndex = image.lastIndexOf('.')
