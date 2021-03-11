@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "copyfiles -f ./src/schema.graphql ./dist",
     "build": "tsc --build ./tsconfig.json",
-    "start": "npm run build && node dist/index.js",
+    "start": "node dist/index.js",
     "dev": "nodemon --ext ts --exec 'yarn build --incremental && yarn start'",
     "generate": "graphql-codegen --config codegen.yml"
   },
