@@ -2,7 +2,7 @@
   "name": "bhamgraph",
   "version": "0.1.0",
   "license": "UNLICENSED",
-  "main": "./index.ts",
+  "main": "./dist/index.js",
   "scripts": {
     "prestart": "copyfiles -f ./src/schema.graphql ./dist",
     "build": "tsc --build ./tsconfig.json",
