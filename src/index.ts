@@ -21,10 +21,12 @@ const server = new ApolloServer({
     projects: new Projects(),
     galleries: new Galleries(),
   }),
-  context: () => ({
+  context: (context) => {
+    return {
+    API_KEY: context.req.headers['x-api_key'],
     projects: client.db().collection('projects'),
     galleries: client.db().collection('galleries'),
-  }),
+  }},
 });
 
 // The `listen` method launches a web server.
