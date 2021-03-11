@@ -1,0 +1,42 @@
+type Query {
+  projects(sort: ProjectSort count: Int): [Project]
+  gallery(id: String): Gallery
+}
+
+type Mutation {
+  addProject(category: [String] image: String! title: String! year: Int!): Project
+  updateProject(_id: String! category: [String] image: String title: String year: Int): Project
+  deleteProject(_id: String!): Project
+}
+
+type Project {
+  _id: String
+  category: [Category]
+  image: Image
+  title: String
+  year: Int
+}
+
+type Image {
+  path: String
+  fileType: String
+  alt: String
+}
+
+type Gallery {
+  description: String
+  images: [String]
+  title: String
+}
+
+enum Category {
+  DEVELOPMENT
+  DESIGN
+  WEBDESIGN
+  PHOTOGRAPHY
+  FINEART
+}
+
+input ProjectSort {
+  year: Int
+}
