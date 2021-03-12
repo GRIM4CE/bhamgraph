@@ -26,6 +26,20 @@ export class Projects extends RESTDataSource {
     }
   }
 
+  async fetchProject(projectId): Promise<Project | Partial<Project>> {
+    console.log(projectId)
+    try {
+      isAuthorized(this.context, false)
+      const res = await this.context.projects.findOne({ _id: new ObjectId(projectId) })
+      console.log(res)
+      return res
+    } catch(e) {
+      console.log(e)
+      return e
+    }
+  }
+
+
   async createProject(project): Promise<Project | Partial<Project>> {
     try {
       isAuthorized(this.context)

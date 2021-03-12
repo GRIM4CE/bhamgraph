@@ -8,7 +8,7 @@ type Mutation {
   addProject(category: [String] image: String! slug: SlugInput title: String! date: Int!): Project
   updateProject(_id: String! category: [String] slug: SlugInput  image: String title: String date: Int): Project
   deleteProject(_id: String!): Project
-  updateGallery(_id: String! slug: String projectId: String description: String imagesPath: String, imagesCount: Int): Gallery
+  updateGallery(_id: String! projectId: String description: String imagesPath: String, imagesCount: Int): Gallery
   # deleteGallery(_id: String!): Gallery
 }
 
@@ -24,6 +24,7 @@ type Project {
 type ProjectSlug {
   pageType: pageType
   path: String
+  noIndex: Boolean
 }
 
 enum pageType {
@@ -38,11 +39,11 @@ type Image {
 
 type Gallery {
   _id: String
-  title: String
+  slug: String
   description: String
   images: GalleryImages
   projectId: String
-  slug: String
+  project: Project
 }
 
 type GalleryImages {
@@ -66,4 +67,5 @@ input ProjectSort {
 input SlugInput {
   pageType: String
   path: String
+  noIndex: Boolean
 }

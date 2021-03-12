@@ -40,5 +40,12 @@ export default {
       gallery,
       { dataSources }: { dataSources: DataSourceContainer<Galleries> }
     ): ReturnType<Galleries["updateGallery"]>  => dataSources.galleries.updateGallery(gallery),
+  },
+  Gallery: {
+    project: (
+      { projectId }:  {projectId: String},
+      args: null,
+      { dataSources }: { dataSources: DataSourceContainer<Projects> }
+    ): ReturnType<Projects["fetchProject"]>  => dataSources.projects.fetchProject(projectId),
   }
 }
