@@ -16,10 +16,12 @@ const isAuthorized = (context, secure_api = true) => {
 }
 
 export class Projects extends RESTDataSource {
-  async fetchProjects(sort = { date: 1 }, count = 20): Promise<Project[]> {
+  async fetchProjects(filter, sort = { date: -1 }, count = 20): Promise<Project[]> {
     try {
       isAuthorized(this.context, false)
-      const res = await this.context.projects.find().limit(count).sort({date: -1}).toArray()
+      let payload: Partial<{category: any}> = {}
+      if(filter) payload.category = { $in: [filter] }
+      const res = await this.context.projects.find(payload).limit(count).sort(sort).toArray()
       return res
     } catch(e) {
       return e
@@ -27,14 +29,11 @@ export class Projects extends RESTDataSource {
   }
 
   async fetchProject(projectId): Promise<Project | Partial<Project>> {
-    console.log(projectId)
     try {
       isAuthorized(this.context, false)
       const res = await this.context.projects.findOne({ _id: new ObjectId(projectId) })
-      console.log(res)
       return res
     } catch(e) {
-      console.log(e)
       return e
     }
   }
@@ -56,12 +55,10 @@ export class Projects extends RESTDataSource {
       isAuthorized(this.context)
       const id = project._id
       const dbReadyProject = this.dbProjectReducer(project)
-      console.log(dbReadyProject)
       const res = await this.context.projects.findOneAndUpdate(
         { _id: new ObjectId(id) },
         { $set: dbReadyProject }
       )
-      console.log(res)
       return res.value
     } catch(e) {
       return e

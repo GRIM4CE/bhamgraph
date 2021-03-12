@@ -1,5 +1,5 @@
 type Query {
-  projects(sort: ProjectSort count: Int): [Project]
+  projects(filter: String, sort: ProjectSort count: Int): [Project]
   galleries(count: Int): [Gallery]
   gallery(slug: String): Gallery
 }

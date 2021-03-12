@@ -5,9 +5,9 @@ export default {
   Query: {
     projects: (
       parent: null,
-      { sort, count }: { sort: { date: number }, count: number },
+      { filter, sort, count }: { filter: string, sort: { date: number }, count: number },
       { dataSources }: { dataSources: DataSourceContainer<Projects> }
-    ): ReturnType<Projects["fetchProjects"]>  => dataSources.projects.fetchProjects(sort, count),
+    ): ReturnType<Projects["fetchProjects"]>  => dataSources.projects.fetchProjects(filter, sort, count),
     galleries: (
       parent: null,
       { count }: { count: number },
