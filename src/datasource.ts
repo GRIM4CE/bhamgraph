@@ -77,12 +77,12 @@ export class Projects extends RESTDataSource {
 
   dbProjectReducer(project) {
     if(project._id) delete project._id
-    if(project.slugPath)
     if(project.image) {
       const { image } = project
+
       const lastIndex = image.lastIndexOf('.')
-      const [path, fileType] = [image.slice(0, lastIndex), image.slice(lastIndex)]
-      project.image = {path, fileType}
+      const [path, fileType] = [image.slice(0, lastIndex), image.slice(lastIndex + 1)]
+      project.image = { path, fileType, fallbackFileType: 'jpeg' }
     }
     return project
   }
